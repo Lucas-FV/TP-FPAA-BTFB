@@ -43,6 +43,14 @@ public class Tabuleiro {
         return tamanho;
     }
 
+    public Simbolo[][] getGrade() {
+        return grade;
+    }
+
+    public List<Restricao> getRestricoes() {
+        return restricoes;
+    }
+
     public void imprimir() {
         System.out.println("\n--- Estado do Tabuleiro ---");
         

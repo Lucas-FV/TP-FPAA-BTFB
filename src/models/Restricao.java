@@ -53,4 +53,6 @@ public class Restricao {
        this.tipo = tipo;
     }
 
+    
+
 }
