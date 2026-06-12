@@ -4,6 +4,7 @@ import java.util.Scanner;
 import models.Tabuleiro;
 import models.Restricao;
 import enums.Simbolo;
+import solver.ForcaBrutaSolver;
 
 public class Main {
 
@@ -46,7 +47,11 @@ public class Main {
                }
                break;
             case 3:
-               System.out.println("\nExecutando Força Bruta...");
+               if (tabuleiro != null) {
+                  executarForcaBruta(tabuleiro);
+               } else {
+                  System.out.println("\nErro: Nenhum tabuleiro carregado. Escolha a opção 1 primeiro.");
+               }
                break;
             case 4:
                System.out.println("\nExecutando Backtracking...");
@@ -70,7 +75,7 @@ public class Main {
       scanner.close();
    }
 
-   private static Tabuleiro popularTabuleiroMenu(Scanner scannerConsole) {
+    private static Tabuleiro popularTabuleiroMenu(Scanner scannerConsole) {
         System.out.println("\n--- Lendo Tabuleiro do Arquivo ---");
         System.out.print("Digite o nome do arquivo (ex: tabuleiro.txt): ");
         String nomeArquivo = scannerConsole.nextLine();
@@ -115,5 +120,25 @@ public class Main {
             System.out.println("Erro ao ler o arquivo: Verifique se o formato está correto.");
             return null;
         }
+    }
+
+    private static void executarForcaBruta(Tabuleiro tabuleiro) {
+        System.out.println("\nExecutando Força Bruta...");
+        long inicio = System.currentTimeMillis();
+
+        ForcaBrutaSolver solver = new ForcaBrutaSolver();
+        boolean encontrouSolucao = solver.resolver(tabuleiro);
+
+        long fim = System.currentTimeMillis();
+
+        if (encontrouSolucao) {
+            System.out.println("[!] Solução encontrada por Força Bruta!");
+            tabuleiro.imprimir();
+        } else {
+            System.out.println("[!] Nenhuma solução encontrada por Força Bruta.");
+        }
+
+        System.out.println("Estados completos gerados: " + solver.getEstadosGerados());
+        System.out.println("Tempo de execução: " + (fim - inicio) + " ms");
     }
 }
